@@ -1,0 +1,23 @@
+public static int FindNthPrimeNumber(int nprime)
+        {
+			int num, count, i;
+			num=1;
+			count=0;
+			while (count < nprime){
+			
+			num=num+1; //find the next prime number 
+			for (i = 2; i <= num; i++){
+				
+				if (num % i == 0) {
+					
+					break; //prime not found
+				}
+			}
+			if ( i == num){
+				
+				count = count+1; //prime found
+			}
+			}
+			return num;
+			
+        }
