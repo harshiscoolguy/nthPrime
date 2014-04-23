@@ -210,13 +210,35 @@ namespace DeveloperTest
         }
 
 
-
+        /*
+         * To be honest, I have referenced Stackoverflow for the solution to this problem. 
+         * http://stackoverflow.com/questions/19969858/building-a-tree-from-a-list-using-recursion
+         * I will learn better on the tree implementation in the forthcoming days. 
+         */
         public TreeNode BuildTree(IEnumerable<Input> inputs, TreeNode parentNode = null)
         {
             TreeNode rootNode = null;
-            foreach (Input singleInput in inputs)
+
+            // Build a dictionary to store each input and its node
+            var dict = inputs.ToDictionary(
+                input => input.Id,
+                input => new { 
+                    Input = input, 
+                    Node = new TreeNode(input.Id) 
+                });
+
+            // Iterate through the nodes and build relationship among them
+            foreach (var value in dict.Values)
             {
-                Console.WriteLine(rootNode);
+                var input = value.Input;
+                if (input.ParentId != null)    //If the ParentId is null, add it as root. If not, add it as a child.
+                {
+                    dict[(int)input.ParentId].Node.AddChild(value.Node);
+                }
+                else
+                {
+                    rootNode = value.Node;
+                }
             }
             return rootNode;
             //throw new NotImplementedException();
